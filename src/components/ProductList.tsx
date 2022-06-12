@@ -45,9 +45,15 @@ export function ProductList() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const handleClick = (price: any, ctx: any ) => {
-    localStorage.setItem("price", price)
-    ctx[1](price)
+  const handleClick = (name: string, price: number, ctx: any ) => {
+    const ordersInLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
+    const newOrder = {
+      name,
+      price,
+    }
+    const newOrders = [...ordersInLocalStorage, newOrder];
+    localStorage.setItem("orders", JSON.stringify(newOrders))
+    ctx[1](newOrders);
   }
 
   return   data.products.items.map((
@@ -68,7 +74,7 @@ export function ProductList() {
           <img width={100} height={100} alt='No image found' src={featuredAsset.source} />
           <p>{description}</p> 
           <h5> ${variantList.items[0].price} </h5>
-          <button onClick={() => handleClick(variantList.items[0]?.price, context )}> Buy </button>
+          <button onClick={() => handleClick(name, variantList.items[0]?.price, context )}> Buy </button>
           </>
         ) }
         </GridItem> 

@@ -3,29 +3,28 @@ import { useContext } from 'react';
 import { DataContext } from '../context/DataContext';
 
 export function Header() {
-  const [price, setPrice] = useState<string>('');
+  const [subtotal, setSubTotal] = useState<string>('');
   const context = useContext(DataContext);
-
-  /*   useEffect(() => {
-    const orderLocalStorage = localStorage.getItem('order');
-    const orderLocalStorageParsed = JSON.parse(orderLocalStorage || '[]');
-    setOrder([...orderLocalStorageParsed]);
-  }, []); */
-
+   
   useEffect(() => {
     if (context[0]) {
-      // const subTotal = context[0] + parseInt(price)
-      setPrice(context[0].toString());
+      let sum = 0; 
+      context[0].forEach(order => sum += order.price) // [{}, {}]
+      setSubTotal(sum.toString());
     } else {
-      setPrice('');
+      setSubTotal('0');
     }
-  }, [context[0]]);
-
-  
-
-  useEffect(() => {
-    setPrice(localStorage.getItem('price'));
-  }, []);
+  }, [context[0]]); 
+   useEffect(() => {
+    let orders = JSON.parse(localStorage.getItem('orders'))
+    let sum = 0;
+    if(!orders) {
+      setSubTotal('0');
+    } else {
+    orders.forEach((order:any) => sum += order.price)
+    setSubTotal(sum.toString());
+    }
+  }, []); 
 
   return (
     <header style={{ background: 'red' }}>
@@ -33,7 +32,7 @@ export function Header() {
         src="https://santex.wpengine.com/wp-content/uploads/2019/02/logo-santex@3x.png"
         alt="logo"
       />
-      <div>price: {price} </div>
+      <div>subtotal: { subtotal } </div>
     </header>
   );
 }
