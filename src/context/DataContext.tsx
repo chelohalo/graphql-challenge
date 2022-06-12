@@ -1,9 +1,9 @@
 import React, { useState, createContext } from "react";
 
-// type Order = {
+// export type Order = {
 //     productId: number;
+//     price: number;
 //     name: string | null;
-//     quantity: number;
 // } | null;
 
 // type IData = {
