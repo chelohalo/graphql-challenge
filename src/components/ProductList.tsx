@@ -1,23 +1,61 @@
 import { useQuery } from '@apollo/client';
 import PRODUCTS from '../graphql/queries';
+import styled from "styled-components";
+import { useContext } from 'react';
+import { DataContext } from '../context/DataContext';
 
 
 
+// const handleClick = (context:) => {
+//   console.log(data);
+// }
 
+
+const Button = styled.button`
+& {
+     background-color: hsla(40, 72%, 50%, 1);
+     padding: 3px; 
+     width: 80px;
+     border: 1px solid grey;
+     border-radius: 15px;  
+     color: white;
+}
+   &:hover {
+    background-color: green;
+    transition: 0.7s; 
+    }
+ `;
+
+
+const GridItem = styled.div`
+& {
+  box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px;
+  text-align: center;
+  border-radius: 5%;
+}
+&:hover {
+  transform: scale(1.1);
+  transition: 0s; 
+  box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px;
+  text-align: center;
+  border-radius: 5%;
+}
+`;
 
 export function ProductList() {
   const { loading, error, data } = useQuery(PRODUCTS);
+  const context = useContext(DataContext);
+  console.log("context",context);
+
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log('data', data);
-  console.log('price', data.products.items[0].variantList.items[0].price);
-  /* 
-  return (
-    <div>
-      <h2>Products</h2>
-    </div>) */
+
+
 
   return   data.products.items.map((
       {
@@ -30,15 +68,17 @@ export function ProductList() {
     ) => (
       
       <div key={id}>
+        <GridItem>
         {description && variantList.items[0]?.price && featuredAsset?.source && name && (
           <>
-          <h6>id: {id}</h6>
           <h5>{name}</h5>
           <img width={100} height={100} alt='No image found' src={featuredAsset.source} />
-          <p>Description: {description}</p> 
+          <p>{description}</p> 
           <h5> ${variantList.items[0].price} </h5>
+          {/* <Button onClick={()=>handleClick}> Buy </Button> */}
           </>
         ) }
+        </GridItem>
       </div>
       
     )

@@ -3,42 +3,47 @@ import { Header } from './components/Header';
 import {ProductList} from './components/ProductList';
 // import "./styles.css";
 import styled from "styled-components";
+import { DataProvider } from './context/DataContext';
 
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 50px;
+  grid-auto-rows: minmax(100px, auto);
+  margin-top: 20px;
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
 
-
-const ContentBox = styled.div`
-  display: flex;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  gap: 0.25rem;
-  padding: 0.25rem;
-  align-items: center;
-  grid-area: content;
-  justify-content: center;
+const AppContainer = styled.div`
+  padding: 15px;
+  margin: 10px;
 `;
 
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  aling-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  font-size: 15px;
-  border: 1px solid blue;
-  text-align: center;
-  margin: 10px;
-  `;
-  
+
+
 
 function App() {
   return (
     <>
+    <DataProvider>
+    <AppContainer>
       <Header />
-      <div>
-        <Container>
+      
+        <GridContainer>
         <ProductList />
-        </Container>
-      </div>
+        </GridContainer>
+      
+      </AppContainer>
+      </DataProvider>
     </>
   );
 }
