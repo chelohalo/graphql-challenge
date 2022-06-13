@@ -13,6 +13,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { ProductList } from './components/ProductList';
 import { DataProvider } from './context/DataContext';
+import styled from 'styled-components';
 
 const commerceLink = createHttpLink({
   // uri: 'https://shrouded-wave-86340.herokuapp.com/shop-api',
@@ -42,11 +43,16 @@ const client = new ApolloClient({
 });
 
 
+const DarkMode = styled.div`
+  background: #1e1e1e;
+`;
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+    <DarkMode>
       <App />
+      </DarkMode>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

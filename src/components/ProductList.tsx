@@ -26,16 +26,20 @@ const GridItem = styled.div`
   padding: 20px;
   text-align: center;
   border-radius: 5%;
+  background: #e4dede;
 }
 &:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   transition: 0.6s; 
   box-shadow: 8px 8px 15px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 20px;
   text-align: center;
   border-radius: 5%;
+  position: inherit;
 }
 `;
+
+
 
 export function ProductList() {
   const { loading, error, data } = useQuery(PRODUCTS);
@@ -74,7 +78,7 @@ export function ProductList() {
           <img width={100} height={100} alt='No image found' src={featuredAsset.source} />
           <p>{description}</p> 
           <h5> ${variantList.items[0].price} </h5>
-          <button onClick={() => handleClick(name, variantList.items[0]?.price, context )}> Buy </button>
+          <Button onClick={() => handleClick(name, variantList.items[0]?.price, context )}> Buy </Button>
           </>
         ) }
         </GridItem> 

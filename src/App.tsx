@@ -1,8 +1,8 @@
 import { Header } from './components/Header';
 //import { ProductList } from './components/ProductList';
-import {ProductList} from './components/ProductList';
+import { ProductList } from './components/ProductList';
 // import "./styles.css";
-import styled from "styled-components";
+import styled from 'styled-components';
 import { DataProvider } from './context/DataContext';
 
 const GridContainer = styled.div`
@@ -27,22 +27,16 @@ const AppContainer = styled.div`
   margin: 10px;
 `;
 
-
-
-
-
 function App() {
   return (
     <>
-    <DataProvider>
-    <AppContainer>
-      <Header />
-      
-        <GridContainer>
-        <ProductList />
-        </GridContainer>
-      
-      </AppContainer>
+      <DataProvider>
+        <AppContainer>
+          <Header />
+          <GridContainer>
+            <ProductList />
+          </GridContainer>
+        </AppContainer>
       </DataProvider>
     </>
   );
