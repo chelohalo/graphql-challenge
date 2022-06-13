@@ -10,6 +10,15 @@ const Test = styled.header`
     background: #b81414;
     opacity: 1;
     padding: 10px;
+    z-index: 100;
+  }
+`;
+
+const Precio = styled.div`
+  & {
+    color: white;
+    font-size: 1.1rem;
+    padding: 7px 7px 7px 7px;
   }
 `;
 
@@ -52,7 +61,7 @@ export function Header() {
           src="https://santex.wpengine.com/wp-content/uploads/2019/02/logo-santex@3x.png"
           alt="logo"
         />
-        <div>subtotal: $ {subtotal} </div>
+        <Precio>subtotal: $ {subtotal} </Precio>
         <button onClick={handleClick} >Cancel purchase</button>
       </header>
     </Test>

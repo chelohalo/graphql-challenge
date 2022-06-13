@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client';
 import PRODUCTS from '../graphql/queries';
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useContext } from 'react';
 import { DataContext } from '../context/DataContext';
+
 
 const Button = styled.button`
 & {
@@ -39,6 +40,31 @@ const GridItem = styled.div`
 }
 `;
 
+const rotate360 = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Spinner = styled.div`
+  animation: ${rotate360} 1s linear infinite;
+  transform: translateZ(0);
+  
+  border-top: 2px solid grey;
+  border-right: 2px solid grey;
+  border-bottom: 2px solid grey;
+  border-left: 4px solid black;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #a795c4;
+`;
+
+
 
 
 export function ProductList() {
@@ -46,7 +72,7 @@ export function ProductList() {
   const context = useContext(DataContext);
   console.log("context",context);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spinner></Spinner>;
   if (error) return <p>Error :(</p>;
 
   const handleClick = (name: string, price: number, ctx: any ) => {
