@@ -1,22 +1,16 @@
 import React, { useState, createContext } from "react";
 
-// type Order = {
-//     productId: number;
-//     name: string | null;
-//     quantity: number;
-// } | null;
-
-// type IData = {
-//    data: Order[];
-//     setData: (data: Order[]) => void;
-// };
+export type Orders = {
+  name: string | null;
+  price: number;
+}[] | null;
 
 
-export const DataContext = createContext<[[], React.Dispatch<React.SetStateAction<[]>>] | null>(null);
+
+export const DataContext = createContext<[Orders, React.Dispatch<React.SetStateAction<[]>>] | null>(null);
 
 
 export function DataProvider({children}:any) {
-    // const [data, setData] = useState<IData>({data: [], setData: (data: Order[]) => {}});
   
     const [data, setData] = useState<[]>([]);
     return (

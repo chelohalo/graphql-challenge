@@ -1,22 +1,27 @@
-// Here we put queries. Remove next line
 import { gql } from '@apollo/client';
 const PRODUCTS = gql`
-  query GetProducts {
-    products {
-      items {
+query GetProducts {
+  products {
+    items {
+      variants {
+        id
         name
-        description
-        variantList {
-          items {
-            price
-          }
+      }
+      name
+      description
+      variantList {
+        items {
+          price
         }
+      }
 
-        featuredAsset {
-          source
-        }
+      featuredAsset {
+        source
       }
     }
   }
+}
+
+
 `;
 export default PRODUCTS;
