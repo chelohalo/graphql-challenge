@@ -1,8 +1,9 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import PRODUCTS from '../graphql/queries';
 import styled, { keyframes } from "styled-components";
-import { useContext } from 'react';
+import { FC, useContext } from 'react';
 import { DataContext } from '../context/DataContext';
+import { ADD_ITEM_TO_ORDER_MUTATION } from '../graphql/mutations';
 
 
 const Button = styled.button`
@@ -52,7 +53,8 @@ const rotate360 = keyframes`
 const Spinner = styled.div`
   animation: ${rotate360} 1s linear infinite;
   transform: translateZ(0);
-  
+
+  justify-content: center;
   border-top: 2px solid grey;
   border-right: 2px solid grey;
   border-bottom: 2px solid grey;
@@ -65,8 +67,6 @@ const Spinner = styled.div`
 `;
 
 
-
-
 export function ProductList() {
   const { loading, error, data } = useQuery(PRODUCTS);
   const context = useContext(DataContext);
@@ -75,9 +75,10 @@ export function ProductList() {
   if (loading) return <Spinner></Spinner>;
   if (error) return <p>Error :(</p>;
 
-  const handleClick = (name: string, price: number, ctx: any ) => {
+  const handleClick = (variantID: any, name: string, price: number, ctx: any) => {
     const ordersInLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]");
     const newOrder = {
+      variantID,
       name,
       price,
     }
@@ -86,25 +87,27 @@ export function ProductList() {
     ctx[1](newOrders);
   }
 
+  console.log("data from gql: ", data)
+
   return   data.products.items.map((
       {
         description,
         featuredAsset,
         variantList,
-        name
-      }: { id: any; description: string; featuredAsset: any; variantList: any; name: string },
+        variants
+      }: { id: any; description: string; featuredAsset: any; variantList: any; variants: any },
       id: any
     ) => (
       
       <div key={id}>
         <GridItem>
-        {description && variantList.items[0]?.price && featuredAsset?.source && name && (
+        {description && variantList.items[0]?.price && featuredAsset?.source && variants[0]?.name && (
           <>
-          <h5>{name}</h5>
+          <h5>{variants[0].name}</h5>
           <img width={100} height={100} alt='No image found' src={featuredAsset.source} />
           <p>{description}</p> 
           <h5> ${variantList.items[0].price} </h5>
-          <Button onClick={() => handleClick(name, variantList.items[0]?.price, context )}> Buy </Button>
+          <Button onClick={() => handleClick(variants[0].id, variants[0].name, variantList.items[0]?.price, context )}> Buy </Button>
           </>
         ) }
         </GridItem> 

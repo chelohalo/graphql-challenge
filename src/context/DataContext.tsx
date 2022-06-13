@@ -5,17 +5,12 @@ export type Orders = {
   price: number;
 }[] | null;
 
-// type IData = {
-//    data: Order[];
-//     setData: (data: Order[]) => void;
-// };
 
 
 export const DataContext = createContext<[Orders, React.Dispatch<React.SetStateAction<[]>>] | null>(null);
 
 
 export function DataProvider({children}:any) {
-    // const [data, setData] = useState<IData>({data: [], setData: (data: Order[]) => {}});
   
     const [data, setData] = useState<[]>([]);
     return (

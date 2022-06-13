@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { DataContext } from '../context/DataContext';
 import styled from 'styled-components';
+import { ADD_ITEM_TO_ORDER_MUTATION } from '../graphql/mutations';
+import { useMutation } from '@apollo/client';
 
 const Test = styled.header`
   & {
@@ -22,6 +24,47 @@ const Precio = styled.div`
   }
 `;
 
+function SubmitOrder(props:any) {
+  const [addItemToOrder, { data, loading, error }] = useMutation(
+    ADD_ITEM_TO_ORDER_MUTATION
+  );
+  const [orders, setOrders] = useState([]);
+
+  const handleClick = () => {
+    if (JSON.parse(localStorage.getItem('orders'))) {
+      setOrders(JSON.parse(localStorage.getItem('orders')));
+      orders.forEach((order: any) => {
+        addItemToOrder({ variables: { ID: order.variantID, quantity: 1 } });
+      });
+    } else {
+      setOrders([]);
+    }
+    localStorage.removeItem('orders');
+    props.updateContext([]);
+    
+  };
+
+  // localStorage.removeItem('orders');
+
+  if (loading) return <p>Submitting...</p>;
+  if (error) return <p> Submission error: ${error.message}</p>;
+  console.log('mutation data:', data);
+
+  console.log('orders:', orders);
+  
+
+  return (
+    <>
+      {localStorage.getItem('orders') ? (
+        <button onClick={handleClick}>submit order</button>
+      ) : (
+        <p>no orders</p>
+      )}
+    </>
+  );
+}
+
+
 
 
 export function Header() {
@@ -37,6 +80,7 @@ export function Header() {
       setSubTotal('0');
     }
   }, [context[0]]);
+
   useEffect(() => {
     let orders = JSON.parse(localStorage.getItem('orders'));
     let sum = 0;
@@ -50,21 +94,20 @@ export function Header() {
 
   const handleClick = () => {
     setSubTotal('0');
-          localStorage.removeItem('orders')
-  }
+    localStorage.removeItem('orders');
+  };
 
   return (
-    
     <Test>
-      <header >
+      <header>
         <img
           src="https://santex.wpengine.com/wp-content/uploads/2019/02/logo-santex@3x.png"
           alt="logo"
         />
         <Precio>subtotal: $ {subtotal} </Precio>
-        <button onClick={handleClick} >Cancel purchase</button>
+        <button onClick={handleClick}>Cancel purchase</button>
+        <SubmitOrder updateContext={context[1]} />
       </header>
     </Test>
-    
   );
 }
