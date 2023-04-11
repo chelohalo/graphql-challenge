@@ -1,10 +1,8 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import PRODUCTS from '../graphql/queries';
 import styled, { keyframes } from "styled-components";
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 import { DataContext } from '../context/DataContext';
-import { ADD_ITEM_TO_ORDER_MUTATION } from '../graphql/mutations';
-
 
 const Button = styled.button`
 & {
@@ -104,7 +102,7 @@ export function ProductList() {
         {description && variantList.items[0]?.price && featuredAsset?.source && variants[0]?.name && (
           <>
           <h5>{variants[0].name}</h5>
-          <img width={100} height={100} alt='No image found' src={featuredAsset.source} />
+          <img width={100} height={100} alt={variants[0].name} src={featuredAsset.source} />
           <p>{description}</p> 
           <h5> ${variantList.items[0].price} </h5>
           <Button onClick={() => handleClick(variants[0].id, variants[0].name, variantList.items[0]?.price, context )}> Buy </Button>

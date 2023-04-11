@@ -2,17 +2,14 @@ import {
   ApolloClient,
   ApolloLink,
   createHttpLink,
-  gql,
   InMemoryCache,
 } from '@apollo/client';
-import { ApolloProvider, useQuery } from '@apollo/client/react';
+import { ApolloProvider } from '@apollo/client/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { ProductList } from './components/ProductList';
-import { DataProvider } from './context/DataContext';
 import styled from 'styled-components';
 
 const commerceLink = createHttpLink({

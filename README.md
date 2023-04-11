@@ -1,4 +1,4 @@
-# Santex RBI Team - Front End Training Challenge
+# Front End Training Challenge
 
 Quick challenge to help candidates to join RBI Team to catch up with currently used technologies
 
